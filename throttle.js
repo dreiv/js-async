@@ -1,13 +1,16 @@
 const d = new Date()
 
 const throttle = (delay, fn) => {
-	let lock = false
+	let lock
+
 	return (...args) => {
 		if (!lock) {
 			setTimeout(() => {
 				fn(...args)
 				lock = false
 			}, delay)
+
+			lock = true
 		}
 	}
 }
@@ -15,7 +18,11 @@ const throttle = (delay, fn) => {
 const log = () => console.log(new Date() - d)
 const logThrottled = throttle(1000, log)
 
-setInterval(logThrottled, 500)
+const int = setInterval(() => {
+	logThrottled()
+}, 50)
+
+setTimeout(() => clearInterval(int), 5000)
 
 // --!--!--!--!--!--!--> t (logThrottled calls)
 // -----x-----x-----x--> t (log calls)
