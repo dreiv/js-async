@@ -14,10 +14,11 @@ function logMorseLetter(letter, next) {
 
 function logMorseWord(word, next) {
 	if (!word.length) {
-		console.log('')
+		process.stdout.write(' ')
 		return next()
 	}
 	const [letter, ...letters] = word
+
 	logMorseLetter(letter, () => {
 		setTimeout(() => logMorseWord(letters, next), LETTER_DELAY)
 	})
@@ -28,6 +29,7 @@ function logMorseText(text, next) {
 		return next()
 	}
 	const [word, ...words] = text
+
 	logMorseWord(word, () => {
 		setTimeout(() => logMorseText(words, next), WORD_DELAY)
 	})
